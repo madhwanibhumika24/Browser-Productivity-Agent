@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     LLM_PROVIDER: str
     GOOGLE_API_KEY: str = ""
 
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore"
