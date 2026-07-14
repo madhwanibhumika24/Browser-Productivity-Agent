@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from app.services.gemini_service import GeminiService
+from app.agents.manager import AgentManager
 
 router = APIRouter(
     prefix="/chat",
@@ -11,19 +11,17 @@ router = APIRouter(
 
 class ChatRequest(BaseModel):
     message: str
+    context: dict
 
 
-class ChatResponse(BaseModel):
-    reply: str
-
-
-@router.post("/", response_model=ChatResponse)
+@router.post("/")
 def chat(request: ChatRequest):
 
-    reply = GeminiService.chat(
-        request.message
+    agent = AgentManager.route(
+        request.context
     )
 
-    return ChatResponse(
-        reply=reply
+    return agent.process(
+        request.message,
+        request.context
     )
