@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
+from app.services.gemini_service import GeminiService
+
 router = APIRouter(
     prefix="/chat",
     tags=["Chat"]
@@ -17,11 +19,11 @@ class ChatResponse(BaseModel):
 
 @router.post("/", response_model=ChatResponse)
 def chat(request: ChatRequest):
-    """
-    Temporary AI endpoint.
-    Gemini will be connected later.
-    """
+
+    reply = GeminiService.chat(
+        request.message
+    )
 
     return ChatResponse(
-        reply=f"I received: {request.message}"
+        reply=reply
     )
