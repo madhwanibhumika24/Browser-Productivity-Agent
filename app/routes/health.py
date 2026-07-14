@@ -1,19 +1,15 @@
 from fastapi import APIRouter
 
 router = APIRouter(
+    prefix="/health",
     tags=["Health"]
 )
 
 
 @router.get("/")
-def health_check():
-    """
-    Health Check Endpoint
-    """
-
+def health():
     return {
-        "status": "success",
-        "application": "Browser Productivity Agent",
-        "version": "1.0.0",
-        "message": "Backend is running successfully 🚀"
+        "status": "online",
+        "app": "Browser Productivity Agent",
+        "version": "1.0.0"
     }
